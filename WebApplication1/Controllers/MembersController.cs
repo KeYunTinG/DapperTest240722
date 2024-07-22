@@ -36,8 +36,15 @@ namespace WebApplication1.Controllers
 
         // PUT api/<MembersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] string phone)
         {
+            using (var conn = new SqlConnection(_connectString))
+            {
+                string sql = "UPDATE Members SET Phone = @Phone WHERE Id = @Id";
+
+                conn.Execute(sql, new { Id = id, Phone = phone });
+                return Ok("完成");
+            }
         }
 
         // DELETE api/<MembersController>/5
