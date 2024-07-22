@@ -13,10 +13,6 @@ namespace WebApplication1.Controllers
     {
         private readonly string _connectString = @"Server=(LocalDB)\MSSQLLocalDB;Database=myDB;Trusted_Connection=True;";
 
-        public MembersController(string connectString)
-        {
-            _connectString = connectString;
-        }
         // GET: api/<MembersController>
         [HttpGet]
         public IEnumerable<Member> Get()
@@ -26,9 +22,10 @@ namespace WebApplication1.Controllers
         }
         // GET api/<MembersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IEnumerable<Member> Get(int id)
         {
-            return "value";
+            using (var conn = new SqlConnection(_connectString))
+                return conn.Query<Member>("SELECT * FROM Members WHERE Id = @Id", new { Id = id });
         }
 
         // POST api/<MembersController>
