@@ -14,9 +14,14 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class MembersController : ControllerBase
     {
-        private readonly string _connectString = @"Server=UT11302111;Database=mygoDB;Trusted_Connection=True;";
-        private static readonly string UploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "logs");
+        private readonly string _connectString;
+        private readonly string _uploadsFolder;
 
+        public MembersController(IConfiguration configuration)
+        {
+            _connectString = configuration.GetConnectionString("DefaultConnection");
+            _uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), configuration["LoggingSettings:UploadsFolder"]);
+        }
         // GET: api/<MembersController>
         [HttpGet]
         public IEnumerable<Member> Get()
@@ -139,11 +144,11 @@ namespace WebApplication1.Controllers
         }
         private string LogFile(string TransID) //確認寫入資料夾
         {
-            if (!Directory.Exists(UploadsFolder))
+            if (!Directory.Exists(_uploadsFolder))
             {
-                Directory.CreateDirectory(UploadsFolder);
+                Directory.CreateDirectory(_uploadsFolder);
             }
-            string logFilePath = Path.Combine(UploadsFolder, $"{TransID}" + ".txt");
+            string logFilePath = Path.Combine(_uploadsFolder, $"{TransID}" + ".txt");
             return  logFilePath;
         }
 
