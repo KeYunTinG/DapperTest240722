@@ -68,9 +68,9 @@ namespace WebApplication1.Controllers
             string sqlSelect = "SELECT Id,Name,Phone FROM Members WHERE Id = @Id";
             var member = conn.QueryFirstOrDefault<Member>(sqlSelect, new { Id = id });
             string TransID = $"{TransactionId()}";
-            string logTxt = $"TransID: {TransID}," +
-                $"ID: {member.Id}," +
-                $"姓名: {member.Name}," +
+            string logTxt = $"TransID: {TransID},\n" +
+                $"ID: {member.Id},\n" +
+                $"姓名: {member.Name},\n" +
             $"電話: {member.Phone}";
 
             WriteLogToFile(LogFile(TransID), logTxt);
