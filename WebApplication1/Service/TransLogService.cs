@@ -7,9 +7,9 @@ using WebApplication1.Models;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using Newtonsoft.Json;
 
-namespace WebApplication1.Repository
+namespace WebApplication1.Service
 {
-    public class TransLogService: ITransLogService
+    public class TransLogService : ITransLogService
     {
         private readonly string _uploadsFolder;
         public TransLogService(IConfiguration configuration)

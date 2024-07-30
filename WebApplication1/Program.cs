@@ -1,12 +1,20 @@
 using WebApplication1.Interface;
-using WebApplication1.Repository;
+using WebApplication1.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// 讀取 appsettings.json 配置
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+// 設置配置載入順序
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+// 驗證當前環境
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<ITransLogService, TransLogService>();
@@ -30,8 +38,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => @$"
-Environment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}
-EnvSetting: {app.Configuration["EnvSetting"]}");
 
 app.Run();
