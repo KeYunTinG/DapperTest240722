@@ -2,9 +2,8 @@
 {
     public class Info
     {
-        int TransID { get; set; }
-        int Id { get; set; }
-        string Name { get; set; }
-        string Phone { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
     }
 }

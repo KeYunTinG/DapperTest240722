@@ -2,8 +2,8 @@
 {
     public class ITransLog
     {
-        public int traceId { get; set; }
-        public int rtnCode { get; set; }
+        public string traceId { get; set; }
+        public string rtnCode { get; set; }
         public string msg { get; set; }
         public Info info { get; set; }
     }
